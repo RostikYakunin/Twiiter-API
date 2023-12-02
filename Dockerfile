@@ -4,5 +4,5 @@ WORKDIR /app
 COPY . .
 RUN gradle -x clean build
 
-COPY build/libs/twitter_mini.jar app.jar
-CMD ["java", "-jar", "app.jar"]
+COPY build/libs/twitter_mini.war app.war
+CMD ["java", "-jar", "app.war"]

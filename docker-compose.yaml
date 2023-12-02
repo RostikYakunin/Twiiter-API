@@ -6,16 +6,16 @@ services:
     restart: unless-stopped
     container_name: mongodb
     ports:
-      - "27016:27016"
+      - "27017:27017"
     volumes:
       - db:/data/db
 
-  twitter_mini:
+  twitter-mini:
     build:
       context: .
       dockerfile: Dockerfile
-    image: twitter_mini:latest
-    container_name: twitter_mini
+    image: twitter-mini:latest
+    container_name: twitter-mini
     ports:
       - "8080:8080"
     restart: on-failure

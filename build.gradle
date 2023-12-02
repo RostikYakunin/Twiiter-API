@@ -38,7 +38,7 @@ dependencies {
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
 	// DB
-	//implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
 	// Tests
 	testImplementation 'org.spockframework:spock-core:2.3-groovy-3.0'
@@ -51,6 +51,6 @@ tasks.named('test') {
 }
 
 bootJar {
-	archiveFileName = 'twitter_mini.jar'
+	archiveFileName = 'twitter_mini.war'
 	destinationDirectory = file('build/libs/')
 }
