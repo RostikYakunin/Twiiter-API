@@ -45,10 +45,6 @@ class UserService {
         return !userRepository.existsById(userId)
     }
 
-    def findAll() {
-        return userRepository.findAll()
-    }
-
     def createUserDescriptionById(String id) {
         def foundUser = userRepository.findById(id).orElseThrow(RuntimeException::new)
         def listOfLikes = likeService.findLikesByUserId(id)

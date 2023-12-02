@@ -7,14 +7,14 @@ import org.springframework.data.mongodb.core.mapping.Document
 class Comment {
     @Id
     String id
-    def userId
-    def postId
+    String userId
+    String postId
     def text
 
     Comment() {
     }
 
-    Comment(String userId, String postId, String text) {
+    Comment(userId, postId, text) {
         this.userId = userId
         this.postId = postId
         this.text = text
@@ -50,6 +50,6 @@ class Comment {
                 ", userId=" + userId +
                 ", postId=" + postId +
                 ", text=" + text +
-                '}';
+                '}'
     }
 }

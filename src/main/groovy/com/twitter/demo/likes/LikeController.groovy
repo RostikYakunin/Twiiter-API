@@ -22,9 +22,4 @@ class LikeController {
     def removeLike(@PathVariable("id") String id) {
         return ResponseEntity.ok(likeService.unlikePost(id))
     }
-
-    @GetMapping("/")
-    def getAllLikes() {
-        return ResponseEntity.ok(likeService.findAllLikes())
-    }
 }

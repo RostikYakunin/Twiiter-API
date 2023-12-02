@@ -43,10 +43,6 @@ class CommentService {
         return !commentRepository.existsById(commentId)
     }
 
-    def findAllComments() {
-        return commentRepository.findAll()
-    }
-
     def findAllCommentsByPostId(id) {
         return commentRepository.findCommentsByPostId(id)
     }

@@ -26,7 +26,7 @@ class PostController {
     }
 
     @PostMapping("/")
-    def createPost(@RequestBody Post post) {
+    def createPost(@RequestBody post) {
         Post newPost = new Post(post.content, post.authorId)
         return ResponseEntity.status(HttpStatus.CREATED).body(postService.createPost(newPost))
     }
@@ -39,11 +39,6 @@ class PostController {
     @DeleteMapping("/{id}")
     def deletePost(@PathVariable("id") String id) {
         return ResponseEntity.ok(postService.deletePost(id))
-    }
-
-    @GetMapping("/")
-    def findAllPosts() {
-        return ResponseEntity.ok(postService.findAllPost())
     }
 
     @GetMapping("/comments/{id}")

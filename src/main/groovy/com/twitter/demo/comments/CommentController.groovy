@@ -22,7 +22,7 @@ class CommentController {
     }
 
     @PostMapping("/")
-    def addComment(@RequestBody Comment comment) {
+    def addComment(@RequestBody comment) {
         Comment newComment = new Comment(comment.userId, comment.postId, comment.text)
         return ResponseEntity.status(HttpStatus.CREATED).body(commentService.createComment(newComment))
     }
@@ -30,10 +30,5 @@ class CommentController {
     @DeleteMapping("/{id}")
     def removeComment(@PathVariable("id") id) {
         return ResponseEntity.ok(commentService.deleteComment(id))
-    }
-
-    @GetMapping("/")
-    def findAllComments() {
-        return ResponseEntity.ok(commentService.findAllComments())
     }
 }

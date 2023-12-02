@@ -23,7 +23,9 @@ class AuthController {
     def logout(@RequestHeader("Authorization") String tokenId) {
         def logout = authService.logout(tokenId)
 
-        if (!logout) ResponseEntity.badRequest().body("Logout was denied")
+        if (!logout) {
+            return ResponseEntity.badRequest().body("Logout was denied")
+        }
 
         return ResponseEntity.ok("Logged out successfully")
     }

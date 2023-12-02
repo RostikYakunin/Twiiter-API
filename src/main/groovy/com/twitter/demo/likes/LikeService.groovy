@@ -27,7 +27,7 @@ class LikeService {
         }
 
         Like like = new Like(userId, postId)
-        likeRepository.save(like)
+        return likeRepository.save(like)
     }
 
     def unlikePost(likeId) {
@@ -36,11 +36,7 @@ class LikeService {
         return !likeRepository.existsById(likeId)
     }
 
-    def findAllLikes() {
-        return likeRepository.findAll()
-    }
-
     def findLikesByUserId(id) {
-        likeRepository.findLikesByUserId(id)
+        return likeRepository.findLikesByUserId(id)
     }
 }

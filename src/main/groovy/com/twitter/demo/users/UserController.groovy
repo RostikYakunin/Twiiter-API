@@ -38,11 +38,6 @@ class UserController {
         return ResponseEntity.ok(userService.deleteUser(id))
     }
 
-    @GetMapping("/")
-    def findAllUsers() {
-        return ResponseEntity.ok(userService.findAll())
-    }
-
     @GetMapping("/subscription/{id}")
     def findAllFollowersPostsByUserId(@PathVariable("id") id) {
         return ResponseEntity.ok(userService.findAllFollowersPostsByUserId(id))

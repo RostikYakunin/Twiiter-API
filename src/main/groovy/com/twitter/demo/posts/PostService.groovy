@@ -46,8 +46,4 @@ class PostService {
         postRepository.deleteById(postId)
         return !postRepository.existsById(postId)
     }
-
-    def findAllPost() {
-        return postRepository.findAll()
-    }
 }
