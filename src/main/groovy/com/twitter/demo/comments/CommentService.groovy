@@ -19,11 +19,11 @@ class CommentService {
         this.userRepo = userRepo
     }
 
-    def createComment(Comment comment) {
+    def createComment(comment) {
         def foundPost = postService.findPostById(comment.postId)
         def foundUser = userRepo.findById(comment.userId)
 
-        if (foundPost.isEmpty() || foundUser.isEmpty()){
+        if (foundPost.isEmpty() || foundUser.isEmpty()) {
             throw new RuntimeException("Post or User not found")
         }
 
@@ -47,7 +47,7 @@ class CommentService {
         return commentRepository.findAll()
     }
 
-    def findAllCommentsByPostId(String id) {
+    def findAllCommentsByPostId(id) {
         return commentRepository.findCommentsByPostId(id)
     }
 }

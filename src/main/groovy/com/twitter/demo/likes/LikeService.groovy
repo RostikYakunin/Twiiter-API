@@ -1,7 +1,6 @@
 package com.twitter.demo.likes
 
 import com.twitter.demo.posts.PostRepository
-import com.twitter.demo.posts.PostService
 import com.twitter.demo.users.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -19,7 +18,7 @@ class LikeService {
         this.postRepo = postRepo
     }
 
-    def likePost(String userId, String postId) {
+    def likePost(userId, postId) {
         def userById = userRepo.findById(userId)
         def postById = postRepo.findById(postId)
 
@@ -37,11 +36,11 @@ class LikeService {
         return !likeRepository.existsById(likeId)
     }
 
-    def findAllLikes(){
+    def findAllLikes() {
         return likeRepository.findAll()
     }
 
-    def findLikesByUserId(id){
+    def findLikesByUserId(id) {
         likeRepository.findLikesByUserId(id)
     }
 }

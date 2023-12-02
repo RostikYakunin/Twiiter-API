@@ -1,9 +1,11 @@
 package com.twitter.demo.likes
 
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/v1/likes/")
+@RequestMapping("/api/v1/likes")
 class LikeController {
     private LikeService likeService
 
@@ -11,18 +13,18 @@ class LikeController {
         this.likeService = likeService
     }
 
-    @PostMapping
+    @PostMapping("/")
     def addLike(@RequestParam("userId") String userId, @RequestParam("postId") String postId) {
-        return likeService.likePost(userId, postId)
+        return ResponseEntity.status(HttpStatus.CREATED).body(likeService.likePost(userId, postId))
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     def removeLike(@PathVariable("id") String id) {
-        return likeService.unlikePost(id)
+        return ResponseEntity.ok(likeService.unlikePost(id))
     }
 
-    @GetMapping
+    @GetMapping("/")
     def getAllLikes() {
-        return likeService.findAllLikes()
+        return ResponseEntity.ok(likeService.findAllLikes())
     }
 }

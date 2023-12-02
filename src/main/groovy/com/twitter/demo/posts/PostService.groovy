@@ -1,6 +1,7 @@
 package com.twitter.demo.posts
 
 import com.twitter.demo.comments.CommentRepository
+import com.twitter.demo.posts.utils.PostHandler
 import com.twitter.demo.users.UserService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -32,29 +33,16 @@ class PostService {
         return postRepository.findById(id)
     }
 
-    //TODO: remake it
-    def updatePost(postId, Post updatedPost) {
-        if (postRepository.existsById(postId)) {
-            def existingPost = postRepository.findById(postId).orElseThrow(RuntimeException::new)
+    def updatePost(postId, updatedPost) {
+        def existingPost = postRepository.findById(postId).orElseThrow(
+                () -> new RuntimeException("Post with id= $postId not foud")
+        )
 
-            if (existingPost) {
-                if (updatedPost.authorId) {
-                    existingPost.authorId = updatedPost.authorId
-                }
-                if (updatedPost.content) {
-                    existingPost.content = updatedPost.content
-                }
-                if (updatedPost.commentsId){
-                    existingPost.commentsId.addAll(updatedPost.commentsId)
-                }
-
-                return postRepository.save(existingPost)
-            }
-        }
-        return null
+        def handledPost = PostHandler.postUpdateHandler(existingPost, updatedPost)
+        return postRepository.save(handledPost)
     }
 
-    def deletePost(String postId) {
+    def deletePost(postId) {
         postRepository.deleteById(postId)
         return !postRepository.existsById(postId)
     }

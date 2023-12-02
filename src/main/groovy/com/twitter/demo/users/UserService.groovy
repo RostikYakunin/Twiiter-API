@@ -1,8 +1,10 @@
 package com.twitter.demo.users
 
-import com.fasterxml.jackson.databind.ObjectMapper
+
 import com.twitter.demo.comments.CommentRepository
 import com.twitter.demo.likes.LikeService
+import com.twitter.demo.posts.PostRepository
+import com.twitter.demo.users.utils.UserHandler
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -12,11 +14,13 @@ class UserService {
     private UserRepository userRepository
     private LikeService likeService
     private CommentRepository commentRepo
+    private PostRepository postRepository
 
-    UserService(UserRepository userRepository, LikeService likeService, CommentRepository commentRepo) {
+    UserService(UserRepository userRepository, LikeService likeService, CommentRepository commentRepo, PostRepository postRepository) {
         this.userRepository = userRepository
         this.likeService = likeService
         this.commentRepo = commentRepo
+        this.postRepository = postRepository
     }
 
     def createUser(User user) {
@@ -28,60 +32,21 @@ class UserService {
     }
 
     def updateUser(userId, updatedUser) {
-        if (userRepository.existsById(userId)) {
-            def existingUser = userRepository.findById(userId).orElse(null)
+        def existingUser = userRepository.findById(userId).orElseThrow(
+                () -> new RuntimeException("User with id= $userId not found")
+        )
 
-            if (existingUser) {
-                if (updatedUser.username) {
-                    existingUser.username = updatedUser.username
-                }
-                if (updatedUser.email) {
-                    existingUser.email = updatedUser.email
-                }
-                if (updatedUser.password) {
-                    existingUser.password = updatedUser.password
-                }
-
-                return userRepository.save(existingUser)
-            }
-        }
-        return null
+        def handledUser = UserHandler.userUpdateHandler(existingUser, updatedUser)
+        return userRepository.save(handledUser)
     }
 
     def deleteUser(userId) {
         userRepository.deleteById(userId)
-
         return !userRepository.existsById(userId)
     }
 
     def findAll() {
-        return userRepository.findAll();
-    }
-
-    def subscribeUser(followerUserId, followingUserId) {
-        def follower = userRepository.findById(followerUserId).orElseThrow(RuntimeException::new)
-        def following = userRepository.findById(followingUserId).orElseThrow(RuntimeException::new)
-
-        if (follower.followingIdList.contains(following.id)) {
-            throw new RuntimeException("User wit id: $followerUserId is alredy sibscribed on user $followingUserId")
-        }
-
-        follower.followingIdList.add(following.id)
-        userRepository.save(follower)
-
-        return follower
-    }
-
-    def unsubscribeUser(followerUserId, followingUserId) {
-        def follower = userRepository.findById(followerUserId).orElseThrow(RuntimeException::new)
-        def following = userRepository.findById(followingUserId).orElseThrow(RuntimeException::new)
-
-        if (follower.followingIdList.contains(following.id)) {
-            follower.followingIdList.remove(following.id)
-            userRepository.save(follower)
-        }
-
-        return follower
+        return userRepository.findAll()
     }
 
     def createUserDescriptionById(String id) {
@@ -91,7 +56,6 @@ class UserService {
 
 
         StringBuilder result = new StringBuilder()
-
         result.append("Username: ")
                 .append(foundUser.username)
                 .append("\n")
@@ -102,7 +66,6 @@ class UserService {
                     result.append("     ").append(like).append("\n")
                 }
         )
-
         result.append("\n")
 
         result.append("Comments: ").append("\n")
@@ -112,6 +75,54 @@ class UserService {
                 }
         )
 
-        return result.toString();
+        return result.toString()
+    }
+
+    def findAllFollowersPostsByUserId(String id) {
+        def foundUser = userRepository.findById(id).orElseThrow(RuntimeException::new)
+        def postsList = []
+
+        foundUser.followerIdSet.forEach(
+                followerId -> {
+                    def foundPost = postRepository.findById(followerId).orElseThrow(RuntimeException::new)
+                    postsList.add(foundPost)
+                }
+        )
+
+        return postsList
+    }
+
+    def subscribeUser(String followerId, String followingId) {
+        def follower = userRepository.findById(followerId).orElseThrow(RuntimeException::new)
+        def following = userRepository.findById(followingId).orElseThrow(RuntimeException::new)
+
+        if (follower.followingIdSet.contains(following.id)) {
+            throw new RuntimeException("User with id: $followerId is already subscribed to user $followingId")
+        }
+
+        follower.followingIdSet.add(following.id)
+        following.followerIdSet.add(follower.id)
+
+        userRepository.save(follower)
+        userRepository.save(following)
+
+        return follower
+    }
+
+    def unsubscribeUser(String followerId, String followingId) {
+        def follower = userRepository.findById(followerId).orElseThrow(RuntimeException::new)
+        def following = userRepository.findById(followingId).orElseThrow(RuntimeException::new)
+
+        if (!follower.followingIdSet.contains(following.id)) {
+            throw new RuntimeException("User with id: $followerId is already unsubscribed to user $followingId")
+        }
+
+        follower.followingIdSet.remove(following.id)
+        following.followerIdSet.remove(follower.id)
+
+        userRepository.save(follower)
+        userRepository.save(following)
+
+        return follower
     }
 }

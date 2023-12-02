@@ -11,7 +11,8 @@ class User {
     def username
     def email
     def password
-    Set<String> followingIdList = []
+    Set<String> followingIdSet = []
+    Set<String> followerIdSet = []
 
     User() {
     }
@@ -29,7 +30,8 @@ class User {
         User user = (User) o
 
         if (email != user.email) return false
-        if (followingIdList != user.followingIdList) return false
+        if (followerIdSet != user.followerIdSet) return false
+        if (followingIdSet != user.followingIdSet) return false
         if (id != user.id) return false
         if (password != user.password) return false
         if (username != user.username) return false
@@ -43,7 +45,20 @@ class User {
         result = 31 * result + (username != null ? username.hashCode() : 0)
         result = 31 * result + (email != null ? email.hashCode() : 0)
         result = 31 * result + (password != null ? password.hashCode() : 0)
-        result = 31 * result + (followingIdList != null ? followingIdList.hashCode() : 0)
+        result = 31 * result + (followingIdSet != null ? followingIdSet.hashCode() : 0)
+        result = 31 * result + (followerIdSet != null ? followerIdSet.hashCode() : 0)
         return result
+    }
+
+    @Override
+    String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", username=" + username +
+                ", email=" + email +
+                ", password=" + password +
+                ", followingIdSet=" + followingIdSet +
+                ", followerIdSet=" + followerIdSet +
+                '}'
     }
 }
