@@ -1,5 +1,4 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017
-      database: twitter
+      uri: mongodb://mongodb:27017/twitter

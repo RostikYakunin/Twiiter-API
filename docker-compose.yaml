@@ -6,11 +6,9 @@ services:
     restart: unless-stopped
     container_name: mongodb
     ports:
-      - "27017:27017"
+      - "27016:27016"
     volumes:
       - db:/data/db
-    networks:
-      - app-network
 
   twitter_mini:
     build:
@@ -23,13 +21,8 @@ services:
     restart: on-failure
     depends_on:
       - mongodb
-    networks:
-      - app-network
-
-
-networks:
-  app-network:
-    driver: bridge
+    links:
+      - mongodb
 
 volumes:
   db:
