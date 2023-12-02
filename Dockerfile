@@ -1,14 +1,9 @@
-FROM openjdk:17
+FROM gradle:8.1.1-jdk17-jammy
 
 WORKDIR /app
-
 COPY . .
-
-RUN apt-get update && apt-get install -y findutils
-RUN ./gradlew
+RUN gradle -x clean build
 
 COPY build/libs/twitter_mini.jar app.jar
-
-ENV MONGODB_URI=mongodb://localhost:27017/twitter
 
 CMD ["java", "-jar", "app.jar"]
