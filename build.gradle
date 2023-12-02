@@ -22,19 +22,27 @@ repositories {
 	mavenCentral()
 }
 
-dependencies {
-	//Groovy
-	implementation 'org.apache.groovy:groovy'
+dependencyManagement {
+	imports {
+		mavenBom "org.codehaus.groovy:groovy:3.0.16"
+	}
+}
 
-	//Spring Boot
+dependencies {
+	// Groovy
+	implementation 'org.codehaus.groovy:groovy:3.0.16'
+
+	// Spring Boot
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
-	//DB
+	// DB
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
-	//Tests
+	// Tests
+	testImplementation 'org.spockframework:spock-core:2.3-groovy-3.0'
+	testImplementation 'org.spockframework:spock-spring:2.3-groovy-3.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
