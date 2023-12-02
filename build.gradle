@@ -34,3 +34,8 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+bootJar {
+	archiveFileName = 'twitter_mini.jar'
+	destinationDirectory = file('build/libs/')
+}
