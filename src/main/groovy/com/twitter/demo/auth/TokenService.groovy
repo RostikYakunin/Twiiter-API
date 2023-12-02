@@ -10,19 +10,12 @@ class TokenService {
         this.tokenRepository = tokenRepository
     }
 
-    def storeToken(token) {
-        if (isExists(token)){
-            throw new RuntimeException("Current token exists")
-        }
-
+    def storeToken(Token token) {
         return tokenRepository.save(token)
     }
 
-    def removeToken(token) {
-        return tokenRepository.delete(token)
-    }
-
-    def isExists(token) {
-        return tokenRepository.existsById(token.id)
+    def removeToken(tokenId) {
+        tokenRepository.deleteById(tokenId)
+        return !tokenRepository.existsById(tokenId)
     }
 }

@@ -14,14 +14,17 @@ class AuthController {
     }
 
     @PostMapping("/login")
-    def login(@RequestBody User user) {
-        String token = authService.login(user.getUsername(), user.email, user.getPassword())
-        return ResponseEntity.ok(token)
+    def login(@RequestBody user) {
+        def newUser = new User(user.username, user.email, user.password)
+        return ResponseEntity.ok(authService.login(newUser))
     }
 
     @PostMapping("/logout")
-    def logout(@RequestHeader("Authorization") String token) {
-        authService.logout(token)
+    def logout(@RequestHeader("Authorization") String tokenId) {
+        def logout = authService.logout(tokenId)
+
+        if (!logout) ResponseEntity.badRequest().body("Logout was denied")
+
         return ResponseEntity.ok("Logged out successfully")
     }
 }

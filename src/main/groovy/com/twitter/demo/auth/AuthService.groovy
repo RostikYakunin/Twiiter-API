@@ -1,6 +1,6 @@
 package com.twitter.demo.auth
 
-import com.twitter.demo.users.User
+
 import com.twitter.demo.users.UserService
 import org.springframework.stereotype.Service
 
@@ -11,21 +11,20 @@ class AuthService {
     private TokenService tokenService
     private UserService userService
 
-    AuthService(TokenService tokenService) {
+    AuthService(TokenService tokenService, UserService userService) {
         this.tokenService = tokenService
+        this.userService = userService
     }
 
-    def login(username, email, password) {
-        String token = generateToken(username, email, password)
-        def user = new User(username, email, password)
+    def login(user) {
+        String token = generateToken(user.username, user.email, user.password)
 
         userService.createUser(user)
-        tokenService.storeToken(token)
-        return token
+        return tokenService.storeToken(new Token(token))
     }
 
-    def logout(String token) {
-        tokenService.removeToken(token)
+    def logout(tokenId) {
+        tokenService.removeToken(tokenId)
     }
 
     static def generateToken(username, email, password) {
