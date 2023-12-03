@@ -34,7 +34,7 @@ The project is built with the following major frameworks and technologies:
 ### Repo installation
 - Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/RostikYakunin/Twiiter-API
    ```
 
 ### General container usage
