@@ -45,7 +45,7 @@ The project is built with the following major frameworks and technologies:
 > NOTE: Database saves it state between runs.
 
 ### Config
-All app configs are saved in `"src/main/resources/application.properties"`
+All app configs are saved in `"src/main/resources/application.yaml"`
 
 ### Some examples
 
