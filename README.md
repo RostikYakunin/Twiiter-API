@@ -34,18 +34,18 @@ The project is built with the following major frameworks and technologies:
 ### Repo installation
 - Clone the repo
    ```sh
-   git clone https://github.com/RostikYakunin/Twiiter-API
+   git clone https://github.com/RostikYakunin/Twitter-API
    ```
 
 ### General container usage
 - #### [DOCKER COMPOSE DOCUMENTATION](https://docs.docker.com/compose/reference/)
-- To build and run use: `"docker compose up"`, all logs will be streamed in terminal. <br>
+- To run use only: `"docker compose up"`, all logs will be streamed in terminal. <br>
   To stop all containers press: `"CTRL+C"`.
 
 > NOTE: Database saves it state between runs.
 
 ### Config
-All app configs are saved in `"src/main/resources/application.properties"`
+All app configs are saved in `"src/main/resources/application.yaml"`
 
 ### Some examples
 
@@ -76,7 +76,7 @@ POST /api/v1/users/
 #### 2. Find post by id
 To find a post, make a GET request to the /api/v1/posts/ endpoint and type path variable '{id}' (post`s id) 
 ```
-GET /api/v1/auth/posts/{id} 
+GET /api/v1/posts/{id} 
 ```
 
 If post with this id is exists, you will receive information in JSON format like this: 
