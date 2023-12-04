@@ -39,7 +39,7 @@ The project is built with the following major frameworks and technologies:
 
 ### General container usage
 - #### [DOCKER COMPOSE DOCUMENTATION](https://docs.docker.com/compose/reference/)
-- To build and run use: `"docker compose up"`, all logs will be streamed in terminal. <br>
+- To run use only: `"docker compose up"`, all logs will be streamed in terminal. <br>
   To stop all containers press: `"CTRL+C"`.
 
 > NOTE: Database saves it state between runs.
