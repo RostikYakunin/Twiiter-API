@@ -76,7 +76,7 @@ POST /api/v1/users/
 #### 2. Find post by id
 To find a post, make a GET request to the /api/v1/posts/ endpoint and type path variable '{id}' (post`s id) 
 ```
-GET /api/v1/auth/posts/{id} 
+GET /api/v1/posts/{id} 
 ```
 
 If post with this id is exists, you will receive information in JSON format like this: 
